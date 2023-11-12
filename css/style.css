@@ -1,0 +1,90 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@700&family=PT+Sans&family=Roboto+Mono:ital@1&display=swap");
+:root {
+  --full-white: rgba(255, 255, 255, 1);
+  --transparent-white: rgba(255, 255, 255, 0.8);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  min-height: 100vh;
+  gap: 40px;
+  padding: 20px 10px;
+  background: #2c3e50;
+  background: -webkit-linear-gradient(to right, #3498db, #2c3e50);
+  background: linear-gradient(to left, rgba(52, 152, 219, 0.96), rgba(44, 62, 80, 0.96)), url(/img/bg-image.png) no-repeat center;
+  background-size: cover;
+}
+
+.info,
+.advice {
+  text-align: center;
+}
+
+.info__title {
+  font-family: "Nunito", sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--full-white);
+}
+
+.info__description {
+  font-family: "PT Sans", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--transparent-white);
+}
+
+.button_wrapper {
+  display: inline-block;
+  background-color: var(--full-white);
+  border-radius: 40px;
+  margin-top: 40px;
+  padding: 2px;
+}
+
+.button_wrapper:hover {
+  background: linear-gradient(45deg, var(--full-white) 0%, var(--transparent-white) 100%);
+}
+
+.info__button {
+  font-family: "PT Sans", monospace;
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--full-white);
+  background: #323332;
+  border: none;
+  border-radius: 40px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.info__button:hover {
+  color: #323332;
+  background: transparent;
+}
+
+.advice {
+  background: rgba(50, 51, 50, 0.15);
+  box-shadow: 0 8px 32px 0 rgba(95, 96, 111, 0.37);
+  backdrop-filter: blur(5.5px);
+  -webkit-backdrop-filter: blur(5.5px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  padding: 20px 10px;
+}
+
+.advice__text {
+  font-family: "Roboto Mono", monospace;
+  font-size: 2.5rem;
+  font-weight: 400;
+  color: var(--full-white);
+}
