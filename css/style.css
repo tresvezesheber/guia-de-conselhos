@@ -123,9 +123,6 @@
 }
 
 .footer {
-  align-items: flex-end;
-  position: fixed;
-  bottom: 0;
   padding: 20px 10px;
 }
 
@@ -134,6 +131,7 @@
   font-size: 1rem;
   font-weight: 400;
   color: var(--transparent-white);
+  text-align: center;
 }
 
 .footer__link {
