@@ -1,5 +1,7 @@
 const adviceElement = document.querySelector(".advice__text");
 const adviceBox = document.querySelector(".advice");
+const searchInmput = document.querySelector(".search__input");
+const searchResults = document.querySelector(".search__results");
 var resultAdvicesList = document.querySelectorAll(".search__item");
 
 function fetchRandomAdvice() {
@@ -43,12 +45,16 @@ function fetchSearchedAdvice(query) {
       console.log(resultAdvicesList);
 
       resultAdvicesList.forEach((element) => {
-        console.log(element.getAttribute("data-id"));
-        element.innerHTML = "DROGARIA";
+        console.log(element);
         element.addEventListener("click", (event) => {
-          // fetchAdviceById(event.target.getAttribute("data-id"));
+
+          fetchAdviceById(event.target.getAttribute("data-id"));
           console.log(event.target.getAttribute("data-id"));
           console.log("HERE");
+
+          searchResults.style.display = "none";
+          searchResults.style.position = "";
+
         });
       });
     })
@@ -56,9 +62,6 @@ function fetchSearchedAdvice(query) {
       adviceListElement.textContent = "Algo de errado acontenceu e isso não é um conselho! Por favor, tente novamente mais tarde.";
     });
 }
-
-const searchInmput = document.querySelector(".search__input");
-const searchResults = document.querySelector(".search__results");
 
 searchInmput.addEventListener("focus", (event) => {
   searchResults.style.width = `${searchInmput.offsetWidth}px`;
@@ -76,15 +79,6 @@ function clearElement(element) {
   }
 }
 
-resultAdvicesList.forEach((element) => {
-  console.log(element);
-  element.addEventListener("click", (event) => {
-    fetchAdviceById(event.target.getAttribute("data-id"));
-    console.log(event.target.getAttribute("data-id"));
-    console.log("HERE");
-  });
-});
-
 function fetchAdviceById(adviceId) {
   fetch(`https://api.adviceslip.com/advice/${adviceId}`)
     .then((response) => response.json())
@@ -99,3 +93,8 @@ function fetchAdviceById(adviceId) {
       adviceElement.textContent = "Algo de errado acontenceu e isso não é um conselho! Por favor, tente novamente mais tarde.";
     });
 }
+
+searchInmput.addEventListener("focusin", (event) => {
+  searchResults.style.display = "block";
+  searchResults.style.position = "absolute";
+});
