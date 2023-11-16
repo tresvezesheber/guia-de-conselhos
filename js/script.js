@@ -42,9 +42,15 @@ function fetchSearchedAdvice(query) {
       resultAdvicesList = document.querySelectorAll(".search__item");
       console.log(resultAdvicesList);
 
-
-
-     
+      resultAdvicesList.forEach((element) => {
+        console.log(element.getAttribute("data-id"));
+        element.innerHTML = "DROGARIA";
+        element.addEventListener("click", (event) => {
+          // fetchAdviceById(event.target.getAttribute("data-id"));
+          console.log(event.target.getAttribute("data-id"));
+          console.log("HERE");
+        });
+      });
     })
     .catch((error) => {
       adviceListElement.textContent = "Algo de errado acontenceu e isso não é um conselho! Por favor, tente novamente mais tarde.";
@@ -62,7 +68,6 @@ searchInmput.addEventListener("input", (event) => {
   setTimeout(() => fetchSearchedAdvice(event.target.value), 500);
 
   // fetchSearchedAdvice(event.target.value);
-  
 });
 
 function clearElement(element) {
@@ -71,15 +76,14 @@ function clearElement(element) {
   }
 }
 
-
-
-// resultAdvicesList.forEach((element) => {
-//   element.addEventListener("click", (event) => {
-//     // fetchAdviceById(event.target.getAttribute("data-id"));
-//     console.log(event.target.getAttribute("data-id"));
-//     console.log("HERE");
-//   });
-// });
+resultAdvicesList.forEach((element) => {
+  console.log(element);
+  element.addEventListener("click", (event) => {
+    fetchAdviceById(event.target.getAttribute("data-id"));
+    console.log(event.target.getAttribute("data-id"));
+    console.log("HERE");
+  });
+});
 
 function fetchAdviceById(adviceId) {
   fetch(`https://api.adviceslip.com/advice/${adviceId}`)

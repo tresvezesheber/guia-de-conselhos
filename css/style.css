@@ -112,7 +112,7 @@
 }
 
 .search__results {
-  display: none;
+  display: block;
   background: var(--full-white);
   border-radius: 10px;
   max-width: 100%;
