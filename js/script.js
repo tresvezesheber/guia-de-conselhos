@@ -42,19 +42,10 @@ function fetchSearchedAdvice(query) {
       });
       resultAdvicesList = null;
       resultAdvicesList = document.querySelectorAll(".search__item");
-      console.log(resultAdvicesList);
-
       resultAdvicesList.forEach((element) => {
-        console.log(element);
         element.addEventListener("click", (event) => {
-
           fetchAdviceById(event.target.getAttribute("data-id"));
-          console.log(event.target.getAttribute("data-id"));
-          console.log("HERE");
-
-          searchResults.style.display = "none";
-          searchResults.style.position = "";
-
+          setTimeout(() => closeSearchResults(), 100);
         });
       });
     })
@@ -63,14 +54,11 @@ function fetchSearchedAdvice(query) {
     });
 }
 
-searchInmput.addEventListener("focus", (event) => {
-  searchResults.style.width = `${searchInmput.offsetWidth}px`;
-});
-
 searchInmput.addEventListener("input", (event) => {
+  console.log("input");
   setTimeout(() => fetchSearchedAdvice(event.target.value), 500);
-
-  // fetchSearchedAdvice(event.target.value);
+  searchResults.style.width = `${searchInmput.offsetWidth}px`;
+  openSearchResults()
 });
 
 function clearElement(element) {
@@ -94,7 +82,17 @@ function fetchAdviceById(adviceId) {
     });
 }
 
-searchInmput.addEventListener("focusin", (event) => {
+searchInmput.addEventListener("focusout", (event) => {
+  console.log("focusout");
+  setTimeout(() => closeSearchResults(), 200);
+});
+
+function openSearchResults() {
   searchResults.style.display = "block";
   searchResults.style.position = "absolute";
-});
+}
+
+function closeSearchResults() {
+  searchResults.style.display = "none";
+  searchResults.style.position = "";
+}
