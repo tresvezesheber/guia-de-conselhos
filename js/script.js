@@ -49,11 +49,7 @@ function fetchSearchedAdvice(query) {
     .then((data) => {
       clearElement(searchResults);
       data.slips.forEach((element) => {
-        let adviceListElement = document.createElement("li");
-        adviceListElement.classList.add("search__item");
-        adviceListElement.setAttribute("data-id", element.id);
-        adviceListElement.textContent = `"${element.advice.substring(0, 46)}..."`;
-        searchResults.appendChild(adviceListElement);
+        searchResults.innerHTML += `<li class="search__item" data-id="${element.id}">"${element.advice.substring(0, 46)}..."</li>`;
       });
       resultAdvicesList = null;
       resultAdvicesList = document.querySelectorAll(".search__item");
