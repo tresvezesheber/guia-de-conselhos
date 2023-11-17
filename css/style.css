@@ -93,10 +93,6 @@
   }
 }
 
-.search {
-  /* flex: 2; */
-}
-
 .search__input {
   font-family: "Roboto Mono", monospace;
   font-size: 1.5rem;
@@ -125,12 +121,6 @@
   border-radius: 10px;
   max-width: 100%;
   z-index: 1;
-}
-
-.search__input:focus + .search__results {
-  /* display: block;
-  position: absolute; */
-  /* width: 100%; */
 }
 
 .search__results--visible {

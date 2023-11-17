@@ -1,8 +1,33 @@
+// ELEMENTS
 const adviceElement = document.querySelector(".advice__text");
 const adviceBox = document.querySelector(".advice");
 const searchInmput = document.querySelector(".search__input");
 const searchResults = document.querySelector(".search__results");
 var resultAdvicesList = document.querySelectorAll(".search__item");
+
+window.addEventListener("load", fetchRandomAdvice);
+
+// EVENTS
+
+const infoButton = document.querySelector(".info__button");
+infoButton.addEventListener("click", () => {
+  fetchRandomAdvice();
+  adviceBox.classList.remove("advice--hidden");
+});
+
+searchInmput.addEventListener("input", (event) => {
+  console.log("input");
+  setTimeout(() => fetchSearchedAdvice(event.target.value), 500);
+  searchResults.style.width = `${searchInmput.offsetWidth}px`;
+  openSearchResults();
+});
+
+searchInmput.addEventListener("focusout", (event) => {
+  console.log("focusout");
+  setTimeout(() => closeSearchResults(), 200);
+});
+
+// FUNCTIONS
 
 function fetchRandomAdvice() {
   fetch("https://api.adviceslip.com/advice")
@@ -17,16 +42,6 @@ function fetchRandomAdvice() {
       adviceElement.textContent = "Algo de errado acontenceu e isso não é um conselho! Por favor, tente novamente mais tarde.";
     });
 }
-
-window.addEventListener("load", fetchRandomAdvice);
-
-const infoButton = document.querySelector(".info__button");
-infoButton.addEventListener("click", () => {
-  fetchRandomAdvice();
-  adviceBox.classList.remove("advice--hidden");
-});
-
-// CONTROLS
 
 function fetchSearchedAdvice(query) {
   fetch(`https://api.adviceslip.com/advice/search/${query}`)
@@ -54,19 +69,6 @@ function fetchSearchedAdvice(query) {
     });
 }
 
-searchInmput.addEventListener("input", (event) => {
-  console.log("input");
-  setTimeout(() => fetchSearchedAdvice(event.target.value), 500);
-  searchResults.style.width = `${searchInmput.offsetWidth}px`;
-  openSearchResults()
-});
-
-function clearElement(element) {
-  while (element.firstChild) {
-    element.removeChild(element.firstChild);
-  }
-}
-
 function fetchAdviceById(adviceId) {
   fetch(`https://api.adviceslip.com/advice/${adviceId}`)
     .then((response) => response.json())
@@ -82,14 +84,15 @@ function fetchAdviceById(adviceId) {
     });
 }
 
-searchInmput.addEventListener("focusout", (event) => {
-  console.log("focusout");
-  setTimeout(() => closeSearchResults(), 200);
-});
-
 function openSearchResults() {
   searchResults.style.display = "block";
   searchResults.style.position = "absolute";
+}
+
+function clearElement(element) {
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
+  }
 }
 
 function closeSearchResults() {
