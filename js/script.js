@@ -4,6 +4,7 @@ const adviceBox = document.querySelector(".advice");
 const searchInmput = document.querySelector(".search__input");
 const searchResults = document.querySelector(".search__results");
 var resultAdvicesList = document.querySelectorAll(".search__item");
+const urlAdvice = "https://api.adviceslip.com/advice";
 
 window.addEventListener("load", fetchRandomAdvice);
 
@@ -27,15 +28,16 @@ searchInmput.addEventListener("focusout", (event) => {
   setTimeout(() => closeSearchResults(), 200);
 });
 
+
 // FUNCTIONS
 
 function fetchRandomAdvice() {
-  fetch("https://api.adviceslip.com/advice")
+  fetch(urlAdvice)
     .then((response) => response.json())
     .then((data) => {
       const adviceId = data.slip.id;
       const adviceText = data.slip.advice;
-      adviceElement.setAttribute("cite", `https://api.adviceslip.com/advice/${adviceId}`);
+      adviceElement.setAttribute("cite", `${urlAdvice}/${adviceId}`);
       adviceElement.textContent = adviceText;
     })
     .catch((error) => {
@@ -44,7 +46,7 @@ function fetchRandomAdvice() {
 }
 
 function fetchSearchedAdvice(query) {
-  fetch(`https://api.adviceslip.com/advice/search/${query}`)
+  fetch(`${urlAdvice}/search/${query}`)
     .then((response) => response.json())
     .then((data) => {
       clearElement(searchResults);
@@ -66,12 +68,12 @@ function fetchSearchedAdvice(query) {
 }
 
 function fetchAdviceById(adviceId) {
-  fetch(`https://api.adviceslip.com/advice/${adviceId}`)
+  fetch(`${urlAdvice}/${adviceId}`)
     .then((response) => response.json())
     .then((data) => {
       const adviceId = data.slip.id;
       const adviceText = data.slip.advice;
-      adviceElement.setAttribute("cite", `https://api.adviceslip.com/advice/${adviceId}`);
+      adviceElement.setAttribute("cite", `${urlAdvice}/${adviceId}`);
       adviceElement.textContent = adviceText;
       adviceBox.classList.remove("advice--hidden");
     })
