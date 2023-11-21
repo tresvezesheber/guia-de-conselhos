@@ -1,4 +1,4 @@
-// JENKINS TEST
+// JENKINS TEST HOOK
 
 // ELEMENTS
 const adviceElement = document.querySelector(".advice__text");
