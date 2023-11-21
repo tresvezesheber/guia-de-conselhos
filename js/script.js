@@ -1,4 +1,4 @@
-// JENKINS TEST HOOK YO _
+// JENKINS TEST HOOK YOLO
 
 // ELEMENTS
 const adviceElement = document.querySelector(".advice__text");
