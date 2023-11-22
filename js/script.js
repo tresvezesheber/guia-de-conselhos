@@ -2,17 +2,17 @@
 
 const adviceWrapper = document.querySelector(".advice");
 const adviceBox = document.querySelector(".advice");
-const searchInmput = document.querySelector(".search__input");
+const searchInput = document.querySelector(".search__input");
 const searchResults = document.querySelector(".search__results");
 var resultAdvicesList = document.querySelectorAll(".search__item");
 const urlAdvice = "https://api.adviceslip.com/advice";
-const errorElement = `<q class="advice__text" >Algo de errado acontenceu e isso não é um conselho! Por favor, tente novamente mais tarde.</q>`;
+const errorElement = `<q class="advice__text">Algo de errado acontenceu e isso não é um conselho! Por favor, tente novamente mais tarde.</q>`;
 
 // EVENTS
 
 const infoButton = document.querySelector(".info__button");
 infoButton.addEventListener("click", () => {
-  fetchAdvice()
+  fetchAdvice(urlAdvice)
     .then((data) => {
       createAdviceElement(data.slip);
       adviceBox.classList.remove("advice--hidden");
@@ -23,31 +23,8 @@ infoButton.addEventListener("click", () => {
     });
 });
 
-searchInmput.addEventListener("input", (event) => {
-  console.log("input");
-  setTimeout(() => fetchSearchedAdvice(event.target.value), 500);
-  searchResults.style.width = `${searchInmput.offsetWidth}px`;
-  openSearchResults();
-});
-
-searchInmput.addEventListener("focusout", (event) => {
-  console.log("focusout");
-  setTimeout(() => closeSearchResults(), 200);
-});
-
-// FUNCTIONS
-
-function fetchAdvice() {
-  return fetch(urlAdvice)
-    .then((response) => response.json())
-    .catch((error) => {
-      throw new Error("Something went wrong while fetching advice.");
-    });
-}
-
-function fetchSearchedAdvice(query) {
-  fetch(`${urlAdvice}/search/${query}`)
-    .then((response) => response.json())
+searchInput.addEventListener("input", (event) => {
+  fetchAdvice(`${urlAdvice}/search/${event.target.value}`)
     .then((data) => {
       clearElement(searchResults);
       data.slips.forEach((element) => {
@@ -57,27 +34,41 @@ function fetchSearchedAdvice(query) {
       resultAdvicesList = document.querySelectorAll(".search__item");
       resultAdvicesList.forEach((element) => {
         element.addEventListener("click", (event) => {
-          fetchAdviceById(event.target.getAttribute("data-id"));
+          fetchAdvice(`${urlAdvice}/${event.target.getAttribute("data-id")}`)
+            .then((data) => {
+              createAdviceElement(data.slip);
+              adviceBox.classList.remove("advice--hidden");
+            })
+            .catch((error) => {
+              adviceWrapper.innerHTML = errorElement;
+              adviceBox.classList.remove("advice--hidden");
+            });
+
           setTimeout(() => closeSearchResults(), 100);
         });
       });
     })
     .catch((error) => {
-      adviceWrapper.innerHTML = `<q class="advice__text" cite="${urlAdvice}">Algo de errado acontenceu e isso não é um conselho! Por favor, tente novamente mais tarde.</q>`;
+      adviceWrapper.innerHTML = errorElement;
       adviceBox.classList.remove("advice--hidden");
     });
-}
 
-function fetchAdviceById(adviceId) {
-  fetch(`${urlAdvice}/${adviceId}`)
+  searchResults.style.width = `${searchInput.offsetWidth}px`;
+  openSearchResults();
+});
+
+searchInput.addEventListener("focusout", (event) => {
+  console.log("focusout");
+  setTimeout(() => closeSearchResults(), 200);
+});
+
+// FUNCTIONS
+
+function fetchAdvice(url) {
+  return fetch(url)
     .then((response) => response.json())
-    .then((data) => {
-      createAdviceElement(data.slip);
-      adviceBox.classList.remove("advice--hidden");
-    })
     .catch((error) => {
-      adviceWrapper.innerHTML = `<q class="advice__text" cite="${urlAdvice}">Algo de errado acontenceu e isso não é um conselho! Por favor, tente novamente mais tarde.</q>`;
-      adviceBox.classList.remove("advice--hidden");
+      throw new Error("Something went wrong while fetching advice.");
     });
 }
 
