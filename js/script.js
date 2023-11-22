@@ -1,5 +1,6 @@
 // ELEMENTS
 const adviceElement = document.querySelector(".advice__text");
+const adviceWrapper = document.querySelector(".advice");
 const adviceBox = document.querySelector(".advice");
 const searchInmput = document.querySelector(".search__input");
 const searchResults = document.querySelector(".search__results");
@@ -34,10 +35,7 @@ function fetchRandomAdvice() {
   fetch(urlAdvice)
     .then((response) => response.json())
     .then((data) => {
-      const adviceId = data.slip.id;
-      const adviceText = data.slip.advice;
-      adviceElement.setAttribute("cite", `${urlAdvice}/${adviceId}`);
-      adviceElement.textContent = adviceText;
+      createAdviceElement(data.slip);
     })
     .catch((error) => {
       adviceElement.textContent = "Algo de errado acontenceu e isso não é um conselho! Por favor, tente novamente mais tarde.";
@@ -70,15 +68,16 @@ function fetchAdviceById(adviceId) {
   fetch(`${urlAdvice}/${adviceId}`)
     .then((response) => response.json())
     .then((data) => {
-      const adviceId = data.slip.id;
-      const adviceText = data.slip.advice;
-      adviceElement.setAttribute("cite", `${urlAdvice}/${adviceId}`);
-      adviceElement.textContent = adviceText;
+      createAdviceElement(data.slip);
       adviceBox.classList.remove("advice--hidden");
     })
     .catch((error) => {
       adviceElement.textContent = "Algo de errado acontenceu e isso não é um conselho! Por favor, tente novamente mais tarde.";
     });
+}
+
+function createAdviceElement(data) {
+  adviceWrapper.innerHTML = `<q class="advice__text" cite="${urlAdvice}/${data.id}">${data.advice}</q>`;
 }
 
 function openSearchResults() {
