@@ -1,5 +1,3 @@
-// JENKINS TEST HOOK YOLO _ !
-
 // ELEMENTS
 const adviceElement = document.querySelector(".advice__text");
 const adviceBox = document.querySelector(".advice");
@@ -8,7 +6,6 @@ const searchResults = document.querySelector(".search__results");
 var resultAdvicesList = document.querySelectorAll(".search__item");
 const urlAdvice = "https://api.adviceslip.com/advice";
 
-window.addEventListener("load", fetchRandomAdvice);
 
 // EVENTS
 
