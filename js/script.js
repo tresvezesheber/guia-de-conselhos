@@ -6,13 +6,21 @@ const searchInmput = document.querySelector(".search__input");
 const searchResults = document.querySelector(".search__results");
 var resultAdvicesList = document.querySelectorAll(".search__item");
 const urlAdvice = "https://api.adviceslip.com/advice";
+const errorElement = `<q class="advice__text" >Algo de errado acontenceu e isso não é um conselho! Por favor, tente novamente mais tarde.</q>`;
 
 // EVENTS
 
 const infoButton = document.querySelector(".info__button");
 infoButton.addEventListener("click", () => {
-  fetchRandomAdvice();
-  adviceBox.classList.remove("advice--hidden");
+  fetchAdvice()
+    .then((data) => {
+      createAdviceElement(data.slip);
+      adviceBox.classList.remove("advice--hidden");
+    })
+    .catch((error) => {
+      adviceWrapper.innerHTML = errorElement;
+      adviceBox.classList.remove("advice--hidden");
+    });
 });
 
 searchInmput.addEventListener("input", (event) => {
@@ -29,14 +37,11 @@ searchInmput.addEventListener("focusout", (event) => {
 
 // FUNCTIONS
 
-function fetchRandomAdvice() {
-  fetch(urlAdvice)
+function fetchAdvice() {
+  return fetch(urlAdvice)
     .then((response) => response.json())
-    .then((data) => {
-      createAdviceElement(data.slip);
-    })
     .catch((error) => {
-      adviceElement.textContent = "Algo de errado acontenceu e isso não é um conselho! Por favor, tente novamente mais tarde.";
+      throw new Error("Something went wrong while fetching advice.");
     });
 }
 
@@ -76,8 +81,8 @@ function fetchAdviceById(adviceId) {
     });
 }
 
-function createAdviceElement(data) {
-  adviceWrapper.innerHTML = `<q class="advice__text" cite="${urlAdvice}/${data.id}">${data.advice}</q>`;
+function createAdviceElement(advice) {
+  adviceWrapper.innerHTML = `<q class="advice__text" cite="${urlAdvice}/${advice.id}">${advice.advice}</q>`;
 }
 
 function openSearchResults() {
