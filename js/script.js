@@ -1,12 +1,11 @@
 // ELEMENTS
-const adviceElement = document.querySelector(".advice__text");
+
 const adviceWrapper = document.querySelector(".advice");
 const adviceBox = document.querySelector(".advice");
 const searchInmput = document.querySelector(".search__input");
 const searchResults = document.querySelector(".search__results");
 var resultAdvicesList = document.querySelectorAll(".search__item");
 const urlAdvice = "https://api.adviceslip.com/advice";
-
 
 // EVENTS
 
@@ -27,7 +26,6 @@ searchInmput.addEventListener("focusout", (event) => {
   console.log("focusout");
   setTimeout(() => closeSearchResults(), 200);
 });
-
 
 // FUNCTIONS
 
@@ -60,7 +58,8 @@ function fetchSearchedAdvice(query) {
       });
     })
     .catch((error) => {
-      adviceListElement.textContent = "Algo de errado acontenceu e isso não é um conselho! Por favor, tente novamente mais tarde.";
+      adviceWrapper.innerHTML = `<q class="advice__text" cite="${urlAdvice}">Algo de errado acontenceu e isso não é um conselho! Por favor, tente novamente mais tarde.</q>`;
+      adviceBox.classList.remove("advice--hidden");
     });
 }
 
@@ -72,7 +71,8 @@ function fetchAdviceById(adviceId) {
       adviceBox.classList.remove("advice--hidden");
     })
     .catch((error) => {
-      adviceElement.textContent = "Algo de errado acontenceu e isso não é um conselho! Por favor, tente novamente mais tarde.";
+      adviceWrapper.innerHTML = `<q class="advice__text" cite="${urlAdvice}">Algo de errado acontenceu e isso não é um conselho! Por favor, tente novamente mais tarde.</q>`;
+      adviceBox.classList.remove("advice--hidden");
     });
 }
 
