@@ -27,26 +27,31 @@ searchInput.addEventListener("input", (event) => {
   fetchAdvice(`${urlAdvice}/search/${event.target.value}`)
     .then((data) => {
       clearElement(searchResults);
-      data.slips.forEach((element) => {
-        searchResults.innerHTML += `<li class="search__item" data-id="${element.id}">"${element.advice.substring(0, 46)}..."</li>`;
-      });
-      resultAdvicesList = null;
-      resultAdvicesList = document.querySelectorAll(".search__item");
-      resultAdvicesList.forEach((element) => {
-        element.addEventListener("click", (event) => {
-          fetchAdvice(`${urlAdvice}/${event.target.getAttribute("data-id")}`)
-            .then((data) => {
-              createAdviceElement(data.slip);
-              adviceBox.classList.remove("advice--hidden");
-            })
-            .catch((error) => {
-              adviceWrapper.innerHTML = errorElement;
-              adviceBox.classList.remove("advice--hidden");
-            });
 
-          setTimeout(() => closeSearchResults(), 100);
+      if (!data.hasOwnProperty("message")) {
+        data.slips.forEach((element) => {
+          searchResults.innerHTML += `<li class="search__item" data-id="${element.id}">"${element.advice.substring(0, 46)}..."</li>`;
         });
-      });
+        resultAdvicesList = null;
+        resultAdvicesList = document.querySelectorAll(".search__item");
+        resultAdvicesList.forEach((element) => {
+          element.addEventListener("click", (event) => {
+            fetchAdvice(`${urlAdvice}/${event.target.getAttribute("data-id")}`)
+              .then((data) => {
+                createAdviceElement(data.slip);
+                adviceBox.classList.remove("advice--hidden");
+              })
+              .catch((error) => {
+                adviceWrapper.innerHTML = errorElement;
+                adviceBox.classList.remove("advice--hidden");
+              });
+
+            setTimeout(() => closeSearchResults(), 100);
+          });
+        });
+      } else {
+        searchResults.innerHTML = `<li class="search__item">Nenhum resultado encontrado.</li>`;
+      }
     })
     .catch((error) => {
       adviceWrapper.innerHTML = errorElement;
